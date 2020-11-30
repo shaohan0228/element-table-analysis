@@ -1,9 +1,12 @@
 /* Table状态管理 */
 
 const TableStore = function (table, initialState = {}) {
+  
   if (!table) {
     throw new Error('Table is required.');
   }
+
+  console.log('TableStore constructor methoed called');
 
   this.table = table;
   this.states = {
@@ -59,6 +62,7 @@ TableStore.prototype.mutations = {
   // table.vue watch.data 调用
   // table.vue watch.data 调用
   setData(states, data) {
+    console.log(`table store set data, \r\n state->_data: \r\n\t ${states}, \r\n data->data: \r\n\t ${data}`)
     // ......
     states._data = data;
     states.data = data;

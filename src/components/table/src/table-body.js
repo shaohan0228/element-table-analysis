@@ -12,6 +12,7 @@ export default {
   },
 
   data() {
+    console.log('table-body data functin called');
     return {
       tooltipContent: '',
     };
@@ -23,6 +24,7 @@ export default {
     },
 
     data() {
+      console.log('table-body data\'s computed functin called');
       // table.vue watch.data 中 调用 setData 在store 中存储 data
       return this.store.states.data;
     },

@@ -13,6 +13,7 @@
 
     <div class="el-table__body-wrapper"
          ref="bodyWrapper">
+         <!-- 将自己的store 和 context传递给table-body -->
       <table-body :context="context"
                   :store="store"
                   :stripe="stripe"></table-body>
@@ -42,6 +43,7 @@ export default {
 
   data() {
     const store = new TableStore(this);
+    console.log(`table vue data init, create a table store called store: ${store}`);
     return {
       store,
     };
@@ -54,12 +56,18 @@ export default {
 
   watch: {
     data: {
+      // 因为设置了immediate，所以在实例第一次创建时，data的watch就被调用了
       immediate: true,
       handler(value) {
         // 供 table-body computed.data 使用
         this.store.commit('setData', value);
+        // 首次调用时 this.$ready 尚未赋值，并不会执行下面的代码
+        // 只有后续更新时，下面的代码才会被执行
+        console.log(`table.vue's data's watcher run, check $ready's value is true or not, now the value is ${this.$ready}`);
         if (this.$ready) {
+          console.log('table.vue\'s data\'s watcher set $nextTick to run');
           this.$nextTick(() => {
+            console.log('table.vue\'s data\'s watcher seted $nextTick code run, function doLayout try to call');
             this.doLayout();
           });
         }
@@ -87,6 +95,7 @@ export default {
     this.doLayout();
     // 标记table组件已经mounted，table-store.js的insertColumn也以此来判断需不需调用updateColumn
     this.$ready = true;
+    console.log('table\'s $ready set to true ')
   },
 };
 </script>
